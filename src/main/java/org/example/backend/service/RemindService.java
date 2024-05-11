@@ -81,7 +81,7 @@ public class RemindService implements PathConstants {
         fileWriterOrLoader.write(reminds);
         return false;
     }
-    public boolean sendAllReminds(Long id, TelegramBot bot, MyUser user){
+    public boolean sendAllReminds(Long id, TelegramBot bot){
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
         int count=0;
         for (int i = 0; i < reminds.size(); i++) {
@@ -92,16 +92,7 @@ public class RemindService implements PathConstants {
                 bot.execute(sendMessage);
             }
         }
-        if(get(id)==null){
-            MessageMaker messageMaker= new MessageMaker();
-            SendMessage sendMessage = messageMaker.noRemind(user);
-            bot.execute(sendMessage);
-            return true;
-        }
-        MessageMaker messageMaker= new MessageMaker();
-        SendMessage sendMessage = messageMaker.chooseDeleteRemind(user);
-        bot.execute(sendMessage);
-        return false;
+        return get(id) == null;
     }
 
 

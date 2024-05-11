@@ -37,44 +37,26 @@ public class CallBackQueryHandler extends BaseHandler{
                     deleteMessage(update.callbackQuery().message().messageId());
                     return;
                 }
-                if (remindService.sendAllReminds(curUser.getId(),bot,curUser)) {
+                if (remindService.sendAllReminds(curUser.getId(),bot)) {
+                    SendMessage sendMessage = new SendMessage(curUser.getId(), "You do not have any reminds");
+                    bot.execute(sendMessage);
+                    curUser.setState(MainState.MAIN_MENU.name());
+                    curUser.setBaseState(BaseState.MAIN_STATE.name());
+                    userService.save(curUser);
                     mainState();
+                }else {
+                    curUser.setState(DeleteRemindState.DELETE_REMIND.name());
+                    userService.save(curUser);
                 }
-                curUser.setState(DeleteRemindState.CHOOSE_REMIND.name());
             }
             case DELETE_REMIND -> {
                 if (deleteBack(update.callbackQuery().data(),state,update.callbackQuery().message())) {
-                    checkRemind();
                     deleteMessage(update.callbackQuery().message().messageId());
                 }
             }
         }
     }
-    private void checkRemind() {
-        String text = update.callbackQuery().message().text();
-        System.out.println(text);
-        if(text.equals("YES")){
-            Remind index = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
-            if (index!=null){
-                remindService.deleteRemind(curUser.getId(), index);
-                SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
-                bot.execute(sendMessage);
-                curUser.setState(MainState.MAIN_MENU.name());
-                mainState();
-            }else {
-                SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist❌");
-                bot.execute(sendMessage);
-                mainState();
-            }
 
-        }else {
-            incorrectData("remind");
-            mainState();
-        }
-
-
-
-    }
 
     private void SetRemindState() {
         String stateStr = curUser.getState();

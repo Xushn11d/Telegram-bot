@@ -56,11 +56,8 @@ public class MessageHandler extends BaseHandler{
                 curUser.setState(DeleteRemindState.DELETE_REMIND.name());
                 userService.save(curUser);
             }
-            case DELETE_REMIND ->{
-                checkRemind();
-                SendMessage allow = messageMaker.allow(curUser);
-                bot.execute(allow);
-            }
+            case DELETE_REMIND ->checkRemind();
+
 
 
         }
@@ -68,16 +65,22 @@ public class MessageHandler extends BaseHandler{
     }
 
     private void checkRemind() {
-        if(update.message().text()!=null) {
-            Remind index = remindService.getByIndex(curUser.getId(), Math.toIntExact(Long.parseLong(update.message().text())));
-            if (index==null) {
-                remindService.sendAllReminds(curUser.getId(),bot,curUser);
+        String text = update.message().text();
+        System.out.println(text);
+            Remind index = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
+            if (index!=null){
+//                remindService.deleteRemind(curUser.getId(), index);
+//                SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
+//                bot.execute(sendMessage);
+                curUser.setState(MainState.MAIN_MENU.name());
+                userService.save(curUser);
+                mainState();
+            }else {
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist❌");
                 bot.execute(sendMessage);
+                mainState();
             }
-        }else {
-            incorrectData("remind");
-        }
+
 
     }
 	
