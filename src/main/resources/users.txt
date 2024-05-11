@@ -1,0 +1,11 @@
+[
+  {
+    "username": null,
+    "lastname": null,
+    "firstname": "ㅤㅤㅤ",
+    "phoneNumber": "998976335259",
+    "state": "MAIN_MENU",
+    "baseState": "MAIN_STATE",
+    "id": 1074027234
+  }
+]
