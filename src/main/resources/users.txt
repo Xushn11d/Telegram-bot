@@ -7,5 +7,14 @@
     "state": "MAIN_MENU",
     "baseState": "MAIN_STATE",
     "id": 1074027234
+  },
+  {
+    "username": "alimovny",
+    "lastname": null,
+    "firstname": "ny",
+    "phoneNumber": "+998909017194",
+    "state": "DELETE_REMIND",
+    "baseState": "DELETE_REMIND_STATE",
+    "id": 5129088287
   }
 ]

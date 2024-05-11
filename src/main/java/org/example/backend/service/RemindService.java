@@ -72,7 +72,7 @@ public class RemindService implements PathConstants {
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
         for (int i = 0; i < reminds.size(); i++) {
             Remind cur = reminds.get(i);
-            if (Objects.equals(cur.getUserId(),id)&&remind==cur){
+            if (Objects.equals(cur.getUserId(),id)&&remind.equals(cur)){
                 reminds.remove(cur);
                 fileWriterOrLoader.write(reminds);
                 return true;
