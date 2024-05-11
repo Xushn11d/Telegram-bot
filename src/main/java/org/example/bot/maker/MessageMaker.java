@@ -42,6 +42,23 @@ public class MessageMaker {
         sendMessage.replyMarkup(markup);
         return sendMessage;
     }
+
+    public SendMessage allow(MyUser curUser){
+        SendMessage sendMessage = new SendMessage(curUser.getId(), "🤔Do you really want delete");
+        InlineKeyboardButton[][] buttons = {
+                {
+                        new InlineKeyboardButton("✅Yes").callbackData("YES"),
+                        new InlineKeyboardButton("❌No").callbackData("NO"),
+                },
+                {
+                        new InlineKeyboardButton("❌Back").callbackData("BACK")
+                }
+        };
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);
+        sendMessage.replyMarkup(markup);
+        return sendMessage;
+    }
+
     public SendMessage chooseFunction(MyUser curUser) {
         SendMessage sendMessage = new SendMessage(curUser.getId(), "Choose function: ");
         InlineKeyboardButton[][] buttons = {
@@ -71,10 +88,10 @@ public class MessageMaker {
     }
 
     public SendMessage noRemind(MyUser curUser){
-        SendMessage sendMessage = new SendMessage(curUser.getId(), "You do not have any reminds");
+        SendMessage sendMessage = new SendMessage(curUser.getId(), "🗓️You do not have any reminds");
         InlineKeyboardButton[][] buttons = {
                 {
-                        new InlineKeyboardButton("Back").callbackData("BACK")
+                        new InlineKeyboardButton("❌Back").callbackData("BACK")
                 }
         };
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);

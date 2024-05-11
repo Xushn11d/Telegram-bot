@@ -2,6 +2,7 @@ package org.example.bot.handlers;
 
 import com.pengrad.telegrambot.model.*;
 import com.pengrad.telegrambot.request.SendMessage;
+import org.example.backend.model.Remind;
 import org.example.bot.states.base.BaseState;
 import org.example.bot.states.child.DeleteRemindState;
 import org.example.bot.states.child.MainState;
@@ -41,10 +42,27 @@ public class CallBackQueryHandler extends BaseHandler{
             }
             case DELETE_REMIND -> {
                 if (deleteBack(update.callbackQuery().data(),state,update.callbackQuery().message())) {
+                    checkRemind();
                     deleteMessage(update.callbackQuery().message().messageId());
                 }
             }
         }
+    }
+    private void checkRemind() {
+        if(update.message().text()!=null) {
+            if (remindService.getByIndex(curUser.getId(), Math.toIntExact(Long.parseLong(update.message().text())))==null) {
+                SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist");
+                bot.execute(sendMessage);
+            }else {
+                Remind index = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
+                remindService.deleteRemind(curUser.getId(), index);
+                SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
+                bot.execute(sendMessage);
+            }
+        }else {
+            incorrectData("remind");
+        }
+
     }
 
     private void SetRemindState() {
@@ -52,8 +70,7 @@ public class CallBackQueryHandler extends BaseHandler{
         SetRemindState state = SetRemindState.valueOf(stateStr);
         switch (state){
             case ENTER_TEXT ->{
-                if (back(update.callbackQuery().data(),state,update.callbackQuery().message())) {
-                    chooseMenu();
+                if (backToChooseFunction(update.callbackQuery().data(),state,update.callbackQuery().message())) {
                     deleteMessage(update.callbackQuery().message().messageId());
                     return;
                 }
@@ -62,8 +79,7 @@ public class CallBackQueryHandler extends BaseHandler{
                 bot.execute(sendMessage);
             }
             case ENTER_DATE -> {
-                if (back(update.callbackQuery().data(),state,update.callbackQuery().message())) {
-                    SetRemindState();
+                if (backToEnterText(update.callbackQuery().data(),state,update.callbackQuery().message())) {
                     deleteMessage(update.callbackQuery().message().messageId());
                 }
             }
@@ -104,6 +120,13 @@ public class CallBackQueryHandler extends BaseHandler{
                 deleteRemind();
                 deleteMessage(message.messageId());
             }
+            case "BACK"->{
+                curUser.setState(MainState.MAIN_MENU.name());
+                userService.save(curUser);
+                SendMessage sendMessage = messageMaker.mainMenu(curUser);
+                bot.execute(sendMessage);
+                deleteMessage(message.messageId());
+            }
         }
     }
 
@@ -128,10 +151,20 @@ public class CallBackQueryHandler extends BaseHandler{
         userService.save(curUser);
     }
 
-    private boolean back(String data,SetRemindState state,Message message){
+    private boolean backToChooseFunction(String data, SetRemindState state, Message message){
         if (data.equals("BACK")){
             changeState(state);
-            SendMessage sendMessage = messageMaker.mainMenu(curUser);
+            SendMessage sendMessage = messageMaker.chooseFunction(curUser);
+            bot.execute(sendMessage);
+            deleteMessage(message.messageId());
+            return true;
+        }
+        return false;
+    }
+    private boolean backToEnterText(String data, SetRemindState state, Message message){
+        if (data.equals("BACK")){
+            changeState(state);
+            SendMessage sendMessage = messageMaker.enterText(curUser);
             bot.execute(sendMessage);
             deleteMessage(message.messageId());
             return true;
@@ -141,7 +174,7 @@ public class CallBackQueryHandler extends BaseHandler{
     private boolean deleteBack(String data,DeleteRemindState state,Message message){
         if (data.equals("BACK")){
             changeDeleteState(state);
-            SendMessage sendMessage = messageMaker.mainMenu(curUser);
+            SendMessage sendMessage = messageMaker.chooseFunction(curUser);
             bot.execute(sendMessage);
             deleteMessage(message.messageId());
             return true;
@@ -149,6 +182,10 @@ public class CallBackQueryHandler extends BaseHandler{
         return false;
     }
 
+    private void incorrectData(String data  ) {
+        bot.execute(new SendMessage(curUser.getId(),"You entered incorrect " + data));
+
+    }
 
 
 }

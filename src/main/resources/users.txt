@@ -4,8 +4,8 @@
     "lastname": null,
     "firstname": "ㅤㅤㅤ",
     "phoneNumber": "998976335259",
-    "state": "ENTER_TEXT",
-    "baseState": "SET_REMIND_STATE",
+    "state": "CHOOSE_MENU",
+    "baseState": "MAIN_STATE",
     "id": 1074027234
   }
 ]

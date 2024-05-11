@@ -53,8 +53,9 @@ public class MessageHandler extends BaseHandler{
         DeleteRemindState state = DeleteRemindState.valueOf(stateStr);
         switch (state){
             case CHOOSE_REMIND ->{
-               checkRemind();
                 curUser.setState(DeleteRemindState.DELETE_REMIND.name());
+                SendMessage allow = messageMaker.allow(curUser);
+                bot.execute(allow);
                 userService.save(curUser);
             }
 
@@ -126,7 +127,7 @@ public class MessageHandler extends BaseHandler{
 					bot.execute(sendMessage);
 					return;
 				}
-				SendMessage successMessage = new SendMessage(curUser.getId(), "Successfully added");
+				SendMessage successMessage = new SendMessage(curUser.getId(), "Successfully added🎉🎉🎉");
 				bot.execute(successMessage);
 				curUser.setState(MainState.CHOOSE_MENU.name());
 				curUser.setBaseState(BaseState.MAIN_STATE.name());
