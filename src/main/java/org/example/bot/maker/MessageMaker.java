@@ -99,10 +99,10 @@ public class MessageMaker {
         return sendMessage;
     }
     public SendMessage chooseDeleteRemind(MyUser curUser){
-        SendMessage sendMessage = new SendMessage(curUser.getId(), "Choose what you want to delete");
+        SendMessage sendMessage = new SendMessage(curUser.getId(), "✅Choose what you want to delete");
         InlineKeyboardButton[][] buttons = {
                 {
-                        new InlineKeyboardButton("Back").callbackData("BACK")
+                        new InlineKeyboardButton("❌Back").callbackData("BACK")
                 }
         };
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);

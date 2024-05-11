@@ -37,7 +37,9 @@ public class CallBackQueryHandler extends BaseHandler{
                     deleteMessage(update.callbackQuery().message().messageId());
                     return;
                 }
-                remindService.sendAllReminds(curUser.getId(),bot,curUser);
+                if (remindService.sendAllReminds(curUser.getId(),bot,curUser)) {
+                    mainState();
+                }
                 curUser.setState(DeleteRemindState.CHOOSE_REMIND.name());
             }
             case DELETE_REMIND -> {
