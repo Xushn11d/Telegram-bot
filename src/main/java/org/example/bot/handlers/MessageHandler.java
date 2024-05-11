@@ -58,6 +58,7 @@ public class MessageHandler extends BaseHandler{
                 bot.execute(allow);
                 userService.save(curUser);
             }
+            case DELETE_REMIND -> {}
 
         }
 

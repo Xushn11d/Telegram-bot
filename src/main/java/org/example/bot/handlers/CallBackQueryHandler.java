@@ -51,19 +51,24 @@ public class CallBackQueryHandler extends BaseHandler{
         }
     }
     private void checkRemind() {
-        if(update.message().text()!=null) {
-            if (remindService.getByIndex(curUser.getId(), Math.toIntExact(Long.parseLong(update.message().text())))==null) {
-                SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist");
-                bot.execute(sendMessage);
-            }else {
-                Remind index = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
+        String text = update.message().text();
+        if(text.equals("YES")){
+            Remind index = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
+            if (index!=null){
                 remindService.deleteRemind(curUser.getId(), index);
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
                 bot.execute(sendMessage);
+            }else {
+                SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist❌");
+                bot.execute(sendMessage);
             }
+
         }else {
             incorrectData("remind");
+            mainState();
         }
+
+
 
     }
 
