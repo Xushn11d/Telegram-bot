@@ -53,6 +53,7 @@ public class CallBackQueryHandler extends BaseHandler{
         switch (state){
             case ENTER_TEXT ->{
                 if (back(update.callbackQuery().data(),state,update.callbackQuery().message())) {
+                    chooseMenu();
                     deleteMessage(update.callbackQuery().message().messageId());
                     return;
                 }
@@ -62,6 +63,7 @@ public class CallBackQueryHandler extends BaseHandler{
             }
             case ENTER_DATE -> {
                 if (back(update.callbackQuery().data(),state,update.callbackQuery().message())) {
+                    SetRemindState();
                     deleteMessage(update.callbackQuery().message().messageId());
                 }
             }
