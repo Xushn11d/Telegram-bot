@@ -12,6 +12,9 @@ import org.example.bot.states.child.SetRemindState;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -38,7 +41,7 @@ public class MessageHandler extends BaseHandler{
             if (Objects.equals(baseState,BaseState.MAIN_STATE)){
                 mainState();
             }else if (Objects.equals(baseState,BaseState.SET_REMIND_STATE)){
-                SetRemindState();
+                setRemindState();
             }else if (Objects.equals(baseState,BaseState.DELETE_REMIND_STATE)){
                 deleteRemindState();
             }
@@ -75,67 +78,67 @@ public class MessageHandler extends BaseHandler{
         }
 
     }
-
-    private void SetRemindState() {
-        String stateStr = curUser.getState();
-        SetRemindState state = SetRemindState.valueOf(stateStr);
-        switch (state){
-            case ENTER_TEXT->{
-                String text = update.message().text();
-                if(text!=null){
-                    Remind remind= Remind.builder()
-                            .presnetDate(new Date())
-                            .text(text)
-                            .userId(curUser.getId())
-                            .build();
-                    remindService.save(remind);
-                    curUser.setState(SetRemindState.ENTER_DATE.name());
-                    userService.save(curUser);
-                    SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
-                    bot.execute(sendMessage);
-                }else {
-                    incorrectData("Text");
-                }
-
-            }
-            case ENTER_DATE -> {
-                Message message = update.message();
-                String text = message.text();
-                if (text==null){
-                    incorrectData("Date");
-                    SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
-                    bot.execute(sendMessage);
-                    return;
-                }
-
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                try {
-                    Date date = simpleDateFormat.parse(text);
-                    Remind remind = remindService.get(curUser.getId());
-                    remind.setSendDate(date);
-                    remindService.changeRemind(remind);
-                    Date dat2= new Date();
-                    if(date.before(dat2)) throw new DateTimeException("");
-                } catch (Exception e) {
-                    incorrectData("Date");
-                    SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
-                    bot.execute(sendMessage);
-                    return;
-                }
-                SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully added");
-                bot.execute(sendMessage);
-                curUser.setState(MainState.CHOOSE_MENU.name());
-                curUser.setBaseState(BaseState.MAIN_STATE.name());
-                userService.save(curUser);
-                SendMessage sendMessage1 = messageMaker.chooseFunction(curUser);
-                bot.execute(sendMessage1);
-            }
-
-        }
-
-    }
-
-    private void mainState() {
+	
+	private void setRemindState() {
+		String stateStr = curUser.getState();
+		SetRemindState state = SetRemindState.valueOf(stateStr);
+		switch (state) {
+			case ENTER_TEXT -> {
+				String text = update.message().text();
+				if (text != null) {
+					Remind remind = Remind.builder()
+							.presnetDate(LocalDate.now())
+							.text(text)
+							.userId(curUser.getId())
+							.build();
+					remindService.save(remind);
+					curUser.setState(SetRemindState.ENTER_DATE.name());
+					userService.save(curUser);
+					SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
+					bot.execute(sendMessage);
+				} else {
+					incorrectData("Text");
+				}
+			}
+			case ENTER_DATE -> {
+				Message message = update.message();
+				String text = message.text();
+				if (text == null) {
+					incorrectData("Date");
+					SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
+					bot.execute(sendMessage);
+					return;
+				}
+				
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				try {
+					LocalDate date = LocalDate.parse(text, dateFormatter);
+					Remind remind = remindService.get(curUser.getId());
+					remind.setSendDate(date);
+					remindService.changeRemind(remind);
+					LocalDate currentDate = LocalDate.now();
+					if (date.isBefore(currentDate)) {
+						throw new DateTimeException("");
+					}
+				} catch (DateTimeException e) {
+					incorrectData("Date");
+					SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
+					bot.execute(sendMessage);
+					return;
+				}
+				SendMessage successMessage = new SendMessage(curUser.getId(), "Successfully added");
+				bot.execute(successMessage);
+				curUser.setState(MainState.CHOOSE_MENU.name());
+				curUser.setBaseState(BaseState.MAIN_STATE.name());
+				userService.save(curUser);
+				SendMessage chooseFunctionMessage = messageMaker.chooseFunction(curUser);
+				bot.execute(chooseFunctionMessage);
+			}
+		}
+	}
+	
+	
+	private void mainState() {
         String stateStr = curUser.getState();
         MainState state = MainState.valueOf(stateStr);
         switch (state){

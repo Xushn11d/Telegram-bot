@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -13,7 +14,7 @@ import java.util.Date;
 @Builder
 public class Remind{
     private Long userId;
-    private Date presnetDate;
-    private Date sendDate;
+    private LocalDate presnetDate;
+    private LocalDate sendDate;
     private String text;
 }
