@@ -3,6 +3,7 @@ package org.example.backend.repository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.example.backend.LocalDateAdapter;
 import org.example.backend.statics.PathConstants;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class FileWriterAndLoader<M> {
         return new GsonBuilder()
                 .setPrettyPrinting()
                 .setDateFormat("dd/MM/yyyy")
+		        .registerTypeAdapter(LocalDate.class,new LocalDateAdapter())
                 .serializeNulls()
                 .create();
     }
