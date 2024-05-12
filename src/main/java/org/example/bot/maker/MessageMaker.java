@@ -51,6 +51,7 @@ public class MessageMaker {
                         new InlineKeyboardButton("❌No").callbackData("NO"),
                 },
                 {
+
                         new InlineKeyboardButton("❌Back").callbackData("BACK")
                 }
         };
@@ -63,8 +64,10 @@ public class MessageMaker {
         SendMessage sendMessage = new SendMessage(curUser.getId(), "Choose function: ");
         InlineKeyboardButton[][] buttons = {
                 {
+
                         new InlineKeyboardButton("✅Add remind").callbackData("SET_REMIND"),
                         new InlineKeyboardButton("\uD83D\uDDD1Delete remind").callbackData("DELETE_REMIND"),
+                        new InlineKeyboardButton("🏷️Show reminds").callbackData("SHOW_REMIND"),
                 },
                 {
                         new InlineKeyboardButton("❌Back").callbackData("BACK"),
@@ -97,6 +100,19 @@ public class MessageMaker {
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);
         sendMessage.replyMarkup(markup);
         return sendMessage;
+    }
+
+    public SendMessage deleteRemind(MyUser curUser){
+        SendMessage sendMessage = new SendMessage(curUser.getId(), "🗓Choose what you want to delete");
+        InlineKeyboardButton[][] buttons = {
+                {
+                        new InlineKeyboardButton("❌Back").callbackData("BACK")
+                }
+        };
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);
+        sendMessage.replyMarkup(markup);
+        return sendMessage;
+
     }
 
 

@@ -40,8 +40,8 @@ public class CallBackQueryHandler extends BaseHandler{
                     SendMessage sendMessage = messageMaker.noRemind(curUser);
                     bot.execute(sendMessage);
                 }else {
-                    SendMessage sendMessage1 = new SendMessage(curUser.getId(), "🗓️Choose what you want to delete");
-                    bot.execute(sendMessage1);
+                    SendMessage sendMessage = messageMaker.deleteRemind(curUser);
+                    bot.execute(sendMessage);
                     curUser.setState(DeleteRemindState.DELETE_REMIND.name());
                     userService.save(curUser);
                 }
@@ -57,7 +57,7 @@ public class CallBackQueryHandler extends BaseHandler{
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
                 bot.execute(sendMessage);
                 }
-                curUser.setState(MainState.MAIN_MENU.name());
+                curUser.setState(MainState.CHOOSE_MENU.name());
                 curUser.setBaseState(BaseState.MAIN_STATE.name());
                 userService.save(curUser);
                 mainState();
@@ -121,6 +121,13 @@ public class CallBackQueryHandler extends BaseHandler{
                 deleteRemind();
                 deleteMessage(message.messageId());
             }
+            case "SHOW_REMIND"->{
+                remindService.sendAllReminds(curUser.getId(), bot);
+                curUser.setState(MainState.MAIN_MENU.name());
+                curUser.setBaseState(BaseState.MAIN_STATE.name());
+                mainState();
+            }
+
             case "BACK"->{
                 curUser.setState(MainState.MAIN_MENU.name());
                 userService.save(curUser);

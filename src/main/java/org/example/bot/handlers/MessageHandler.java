@@ -68,8 +68,6 @@ public class MessageHandler extends BaseHandler{
                 bot.execute(sendMessage);
                 remindService.sendAllReminds(curUser.getId(),bot);
             }
-
-
     }
 	private void setRemindState() {
 		String stateStr = curUser.getState();
