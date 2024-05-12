@@ -49,6 +49,7 @@ public class CallBackQueryHandler extends BaseHandler{
             case DELETE_REMIND -> {
                 if (deleteBack(update.callbackQuery().data(),state,update.callbackQuery().message())) {
                     deleteMessage(update.callbackQuery().message().messageId());
+
                 }
                 String data = update.callbackQuery().data();
                 if(data.equals("YES")){
@@ -57,10 +58,9 @@ public class CallBackQueryHandler extends BaseHandler{
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
                 bot.execute(sendMessage);
                 }
-                curUser.setState(MainState.CHOOSE_MENU.name());
+                curUser.setState(MainState.MAIN_MENU.name());
                 curUser.setBaseState(BaseState.MAIN_STATE.name());
                 userService.save(curUser);
-                mainState();
             }
         }
     }

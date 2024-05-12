@@ -8,8 +8,9 @@ import org.example.bot.states.child.DeleteRemindState;
 import org.example.bot.states.child.MainState;
 import org.example.bot.states.child.SetRemindState;
 
+import java.text.DateFormat;
 import java.time.DateTimeException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -77,7 +78,7 @@ public class MessageHandler extends BaseHandler{
 				String text = update.message().text();
 				if (text != null) {
                     Remind remind = Remind.builder()
-                            .presnetDate(LocalDate.now())
+                            .presnetDate(LocalDateTime.now())
                             .text(text)
                             .userId(curUser.getId())
                             .build();
@@ -99,11 +100,13 @@ public class MessageHandler extends BaseHandler{
 					bot.execute(sendMessage);
 					return;
 				}
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                System.out.println("Exeption");
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy,HH:mm:ss");
 				try {
-					LocalDate date = LocalDate.parse(text, dateFormatter);
-					LocalDate currentDate = LocalDate.now();
+					LocalDateTime date = LocalDateTime.parse(text, dateFormatter);
+					LocalDateTime currentDate = LocalDateTime.now();
                     Remind remind = remindService.getWithoutSendDate(curUser.getId());
+                    System.out.println("Exeption");
                     remind.setSendDate(date);
                     remindService.save(remind);
 					if (date.isBefore(currentDate)) {
@@ -123,7 +126,8 @@ public class MessageHandler extends BaseHandler{
 				SendMessage chooseFunctionMessage = messageMaker.chooseFunction(curUser);
 				bot.execute(chooseFunctionMessage);
 			}
-		}
+            default -> throw new IllegalStateException("Unexpected value: " + state);
+        }
 	}
 
 	

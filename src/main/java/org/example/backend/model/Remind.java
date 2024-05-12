@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 public class Remind{
     private Long userId;
-    private LocalDate presnetDate;
-    private LocalDate sendDate;
+    private LocalDateTime presnetDate;
+    private LocalDateTime sendDate;
     private String text;
 }

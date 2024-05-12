@@ -4,15 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.example.backend.LocalDateAdapter;
-import org.example.backend.statics.PathConstants;
+import org.example.backend.LocalDateTimeJsonSerializer;
 
-import java.io.File;
+import javax.crypto.spec.PSource;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.Format;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FileWriterAndLoader<M> {
@@ -49,9 +54,12 @@ public class FileWriterAndLoader<M> {
     private Gson buildGson() {
         return new GsonBuilder()
                 .setPrettyPrinting()
-                .setDateFormat("dd/MM/yyyy")
-		        .registerTypeAdapter(LocalDate.class,new LocalDateAdapter())
+                .setDateFormat("dd/MM/yyyy HH:mm:ss")
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJsonSerializer())
                 .serializeNulls()
                 .create();
     }
+
+
 }
