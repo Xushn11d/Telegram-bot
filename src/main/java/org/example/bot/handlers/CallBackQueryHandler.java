@@ -135,7 +135,7 @@ public class CallBackQueryHandler extends BaseHandler{
         DeleteRemindState pervState = state.getPrevState();
         if (pervState==null) {
             curUser.setBaseState(BaseState.MAIN_STATE.name());
-            curUser.setState(MainState.MAIN_MENU.name());
+            curUser.setState(MainState.CHOOSE_MENU.name());
         }else {
             curUser.setState(pervState.name());
         }
@@ -183,10 +183,6 @@ public class CallBackQueryHandler extends BaseHandler{
         return false;
     }
 
-    private void incorrectData(String data  ) {
-        bot.execute(new SendMessage(curUser.getId(),"You entered incorrect " + data));
-
-    }
 
 
 }

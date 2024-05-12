@@ -6,7 +6,6 @@ import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.DeleteMessage;
 import org.example.Bot;
 import org.example.backend.model.MyUser;
-import org.example.backend.model.Remind;
 import org.example.backend.service.RemindService;
 import org.example.backend.service.UserService;
 import org.example.bean.Bean;
