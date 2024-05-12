@@ -4,9 +4,9 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.DeleteMessage;
-import com.pengrad.telegrambot.request.SendMessage;
 import org.example.Bot;
 import org.example.backend.model.MyUser;
+import org.example.backend.model.Remind;
 import org.example.backend.service.RemindService;
 import org.example.backend.service.UserService;
 import org.example.bean.Bean;
@@ -21,6 +21,7 @@ public abstract class BaseHandler {
     protected RemindService remindService;
     protected UserService userService;
     protected MessageMaker messageMaker;
+    protected Remind index;
 
 
     public BaseHandler() {

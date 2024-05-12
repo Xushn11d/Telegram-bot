@@ -2,7 +2,6 @@ package org.example.bot.handlers;
 
 import com.pengrad.telegrambot.model.*;
 import com.pengrad.telegrambot.request.SendMessage;
-import org.example.backend.model.Remind;
 import org.example.bot.states.base.BaseState;
 import org.example.bot.states.child.DeleteRemindState;
 import org.example.bot.states.child.MainState;
@@ -53,6 +52,15 @@ public class CallBackQueryHandler extends BaseHandler{
                 if (deleteBack(update.callbackQuery().data(),state,update.callbackQuery().message())) {
                     deleteMessage(update.callbackQuery().message().messageId());
                 }
+                String text = update.callbackQuery().data();
+                if(text.equals("YES")){
+                    remindService.deleteRemind(curUser.getId(),index);
+                SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
+                bot.execute(sendMessage);
+                }
+                curUser.setState(MainState.MAIN_MENU.name());
+                curUser.setBaseState(BaseState.MAIN_STATE.name());
+                mainState();
             }
         }
     }

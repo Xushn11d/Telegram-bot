@@ -3,22 +3,15 @@ package org.example.bot.handlers;
 import com.pengrad.telegrambot.model.*;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.example.backend.model.Remind;
-import org.example.backend.service.RemindService;
 import org.example.bot.states.base.BaseState;
 import org.example.bot.states.child.DeleteRemindState;
 import org.example.bot.states.child.MainState;
 import org.example.bot.states.child.SetRemindState;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.Objects;
-
-import static java.awt.SystemColor.text;
 
 public class MessageHandler extends BaseHandler{
 
@@ -58,8 +51,6 @@ public class MessageHandler extends BaseHandler{
             }
             case DELETE_REMIND ->checkRemind();
 
-
-
         }
 
     }
@@ -67,14 +58,11 @@ public class MessageHandler extends BaseHandler{
     private void checkRemind() {
         String text = update.message().text();
         System.out.println(text);
-            Remind index = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
-            if (index!=null){
-//                remindService.deleteRemind(curUser.getId(), index);
-//                SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
-//                bot.execute(sendMessage);
-                curUser.setState(MainState.MAIN_MENU.name());
-                userService.save(curUser);
-                mainState();
+            Remind index2 = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
+            if (index2!=null){
+                index =index2;
+                SendMessage allow = messageMaker.allow(curUser);
+                bot.execute(allow);
             }else {
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist❌");
                 bot.execute(sendMessage);
