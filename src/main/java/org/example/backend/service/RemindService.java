@@ -22,7 +22,7 @@ public class RemindService implements PathConstants {
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
         for (int i = 0; i < reminds.size(); i++) {
             if(Objects.equals(remind,reminds.get(i))){
-              reminds.set(i,remind);
+              reminds.add(remind);
               fileWriterOrLoader.write(reminds);
               return;
             }
@@ -82,8 +82,6 @@ public class RemindService implements PathConstants {
         for (int i = 0; i < reminds.size(); i++) {
             Remind cur = reminds.get(i);
             if (Objects.equals(cur.getUserId(),id)){
-                SendMessage sendMessage1 = new SendMessage(id, "🗓️Choose what you want to delete");
-                bot.execute(sendMessage1);
                 count++;
                 SendMessage sendMessage= new SendMessage(id,count+": "+cur.getText()+" "+cur.getSendDate());
                 bot.execute(sendMessage);

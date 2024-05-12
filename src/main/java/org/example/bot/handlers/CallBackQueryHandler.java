@@ -44,6 +44,8 @@ public class CallBackQueryHandler extends BaseHandler{
                     userService.save(curUser);
                     mainState();
                 }else {
+                    SendMessage sendMessage1 = new SendMessage(curUser.getId(), "🗓️Choose what you want to delete");
+                    bot.execute(sendMessage1);
                     curUser.setState(DeleteRemindState.DELETE_REMIND.name());
                     userService.save(curUser);
                 }
