@@ -58,15 +58,16 @@ public class MessageHandler extends BaseHandler{
     private void checkRemind() {
         String text = update.message().text();
         System.out.println(text);
-            Remind index2 = remindService.getByIndex(curUser.getId(), Integer.parseInt(update.message().text()));
-            if (index2!=null){
+   int  index2 = remindService.getByIndex(curUser.getId(), Integer.parseInt(text));
+        if (index2!=-1){
                 index =index2;
                 SendMessage allow = messageMaker.allow(curUser);
                 bot.execute(allow);
+                userService.save(curUser);
             }else {
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist❌");
                 bot.execute(sendMessage);
-                mainState();
+                remindService.sendAllReminds(curUser.getId(),bot);
             }
 
 

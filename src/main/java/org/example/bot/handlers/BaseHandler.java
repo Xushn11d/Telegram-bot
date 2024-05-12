@@ -21,7 +21,7 @@ public abstract class BaseHandler {
     protected RemindService remindService;
     protected UserService userService;
     protected MessageMaker messageMaker;
-    protected Remind index;
+    protected int index;
 
 
     public BaseHandler() {

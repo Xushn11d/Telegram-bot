@@ -52,14 +52,16 @@ public class CallBackQueryHandler extends BaseHandler{
                 if (deleteBack(update.callbackQuery().data(),state,update.callbackQuery().message())) {
                     deleteMessage(update.callbackQuery().message().messageId());
                 }
-                String text = update.callbackQuery().data();
-                if(text.equals("YES")){
-                    remindService.deleteRemind(curUser.getId(),index);
+                String data = update.callbackQuery().data();
+                if(data.equals("YES")){
+                    remindService.deleteByindex(index);
+                    System.out.println("deleted");
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
                 bot.execute(sendMessage);
                 }
                 curUser.setState(MainState.MAIN_MENU.name());
                 curUser.setBaseState(BaseState.MAIN_STATE.name());
+                userService.save(curUser);
                 mainState();
             }
         }

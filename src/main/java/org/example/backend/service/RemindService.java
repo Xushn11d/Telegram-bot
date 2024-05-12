@@ -44,19 +44,19 @@ public class RemindService implements PathConstants {
         reminds.add(remind);
         fileWriterOrLoader.write(reminds);
     }
-    public Remind getByIndex(Long id, int index){
+    public int getByIndex(Long id, int index){
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
         int count=0;
         for (int i = 0; i < reminds.size(); i++) {
             Remind cur = reminds.get(i);
             if (Objects.equals(cur.getUserId(),id)){
                 count++;
-                if (Objects.equals(index,count)) {
-                    return cur;
+                if (index==count) {
+                    return i;
                 }
             }
         }
-        return null;
+        return -1;
     }
     public Remind get(Long id){
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
@@ -68,30 +68,28 @@ public class RemindService implements PathConstants {
         }
         return null;
     }
-    public boolean deleteRemind(Long id,Remind remind){
+    public boolean deleteByindex(int index){
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
-        for (int i = 0; i < reminds.size(); i++) {
-            Remind cur = reminds.get(i);
-            if (Objects.equals(cur.getUserId(),id)&&remind.equals(cur)){
-                reminds.remove(cur);
-                fileWriterOrLoader.write(reminds);
-                return true;
-            }
-        }
+        reminds.remove(index);
         fileWriterOrLoader.write(reminds);
-        return false;
+        return true;
     }
+
+
     public boolean sendAllReminds(Long id, TelegramBot bot){
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
         int count=0;
         for (int i = 0; i < reminds.size(); i++) {
             Remind cur = reminds.get(i);
             if (Objects.equals(cur.getUserId(),id)){
+                SendMessage sendMessage1 = new SendMessage(id, "🗓️Choose what you want to delete");
+                bot.execute(sendMessage1);
                 count++;
                 SendMessage sendMessage= new SendMessage(id,count+": "+cur.getText()+" "+cur.getSendDate());
                 bot.execute(sendMessage);
             }
         }
+
         return get(id) == null;
     }
 
