@@ -14,8 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class MessageHandler extends BaseHandler{
-    private String RemindText;
-
     @Override
     public void handle(Update update) {
         Message message = update.message();
@@ -79,10 +77,15 @@ public class MessageHandler extends BaseHandler{
 		SetRemindState state = SetRemindState.valueOf(stateStr);
 		switch (state) {
 			case ENTER_TEXT -> {
-				String text2 = update.message().text();
-				if (text2 != null) {
-                    RemindText =text2;
-					curUser.setState(SetRemindState.ENTER_DATE.name());
+				String text = update.message().text();
+				if (text != null) {
+                    Remind remind = Remind.builder()
+                            .presnetDate(LocalDate.now())
+                            .text(text)
+                            .userId(curUser.getId())
+                            .build();
+                    remindService.save(remind);
+                    curUser.setState(SetRemindState.ENTER_DATE.name());
 					userService.save(curUser);
 					SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
 					bot.execute(sendMessage);
@@ -99,18 +102,13 @@ public class MessageHandler extends BaseHandler{
 					bot.execute(sendMessage);
 					return;
 				}
-				
-				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				try {
 					LocalDate date = LocalDate.parse(text, dateFormatter);
-                    Remind remind = Remind.builder()
-                            .presnetDate(LocalDate.now())
-                            .text(RemindText)
-                            .userId(curUser.getId())
-                            .sendDate(date)
-                            .build();
-                    remindService.save(remind);
 					LocalDate currentDate = LocalDate.now();
+                    Remind remind = remindService.getWithourSendDate(curUser.getId());
+                    remind.setSendDate(date);
+                    remindService.changeRemind(remind);
 					if (date.isBefore(currentDate)) {
 						throw new DateTimeException("");
 					}
@@ -130,6 +128,10 @@ public class MessageHandler extends BaseHandler{
 			}
 		}
 	}
+
+    private void saveRemind(){
+
+    }
 	
 	
 	private void mainState() {
@@ -174,8 +176,6 @@ public class MessageHandler extends BaseHandler{
         SendMessage sendMessage = messageMaker.enterPhoneNumber(curUser);
         bot.execute(sendMessage);
     }
-
-
 
 
 }

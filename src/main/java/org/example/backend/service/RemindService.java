@@ -20,14 +20,6 @@ public class RemindService implements PathConstants {
 
     public void save(Remind remind){
         List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
-        for (int i = 0; i < reminds.size(); i++) {
-            if(Objects.equals(remind,reminds.get(i))){
-              reminds.add(remind);
-              fileWriterOrLoader.write(reminds);
-              return;
-            }
-
-        }
         reminds.add(remind);
         fileWriterOrLoader.write(reminds);
     }
@@ -63,6 +55,16 @@ public class RemindService implements PathConstants {
         for (int i = 0; i < reminds.size(); i++) {
             Remind cur = reminds.get(i);
             if (Objects.equals(cur.getUserId(),id)){
+                return cur;
+            }
+        }
+        return null;
+    }
+    public Remind getWithourSendDate(Long id){
+        List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
+        for (int i = 0; i < reminds.size(); i++) {
+            Remind cur = reminds.get(i);
+            if (Objects.equals(cur.getUserId(),id)&&cur.getSendDate()==null){
                 return cur;
             }
         }

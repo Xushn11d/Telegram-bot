@@ -23,7 +23,6 @@ public abstract class BaseHandler {
     protected MessageMaker messageMaker;
     protected int index;
 
-
     public BaseHandler() {
         this.bot = new TelegramBot(Bot.BOT_TOKEN);
         this.userService = Bean.userServiceByThreadLocal.get();
