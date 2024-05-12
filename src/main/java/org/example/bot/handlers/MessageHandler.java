@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class MessageHandler extends BaseHandler{
+    private String RemindText;
 
     @Override
     public void handle(Update update) {
@@ -78,14 +79,9 @@ public class MessageHandler extends BaseHandler{
 		SetRemindState state = SetRemindState.valueOf(stateStr);
 		switch (state) {
 			case ENTER_TEXT -> {
-				String text = update.message().text();
-				if (text != null) {
-					Remind remind = Remind.builder()
-							.presnetDate(LocalDate.now())
-							.text(text)
-							.userId(curUser.getId())
-							.build();
-					remindService.save(remind);
+				String text2 = update.message().text();
+				if (text2 != null) {
+                    RemindText =text2;
 					curUser.setState(SetRemindState.ENTER_DATE.name());
 					userService.save(curUser);
 					SendMessage sendMessage = messageMaker.enterDateForReminder(curUser);
@@ -107,9 +103,13 @@ public class MessageHandler extends BaseHandler{
 				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				try {
 					LocalDate date = LocalDate.parse(text, dateFormatter);
-					Remind remind = remindService.get(curUser.getId());
-					remind.setSendDate(date);
-					remindService.changeRemind(remind);
+                    Remind remind = Remind.builder()
+                            .presnetDate(LocalDate.now())
+                            .text(RemindText)
+                            .userId(curUser.getId())
+                            .sendDate(date)
+                            .build();
+                    remindService.save(remind);
 					LocalDate currentDate = LocalDate.now();
 					if (date.isBefore(currentDate)) {
 						throw new DateTimeException("");
