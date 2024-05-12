@@ -37,12 +37,8 @@ public class CallBackQueryHandler extends BaseHandler{
                     return;
                 }
                 if (remindService.sendAllReminds(curUser.getId(),bot)) {
-                    SendMessage sendMessage = new SendMessage(curUser.getId(), "You do not have any reminds");
+                    SendMessage sendMessage = messageMaker.noRemind(curUser);
                     bot.execute(sendMessage);
-                    curUser.setState(MainState.MAIN_MENU.name());
-                    curUser.setBaseState(BaseState.MAIN_STATE.name());
-                    userService.save(curUser);
-                    mainState();
                 }else {
                     SendMessage sendMessage1 = new SendMessage(curUser.getId(), "🗓️Choose what you want to delete");
                     bot.execute(sendMessage1);

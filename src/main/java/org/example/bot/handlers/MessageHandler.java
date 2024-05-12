@@ -71,7 +71,6 @@ public class MessageHandler extends BaseHandler{
 
 
     }
-	
 	private void setRemindState() {
 		String stateStr = curUser.getState();
 		SetRemindState state = SetRemindState.valueOf(stateStr);
@@ -129,10 +128,6 @@ public class MessageHandler extends BaseHandler{
 		}
 	}
 
-    private void saveRemind(){
-
-    }
-	
 	
 	private void mainState() {
         String stateStr = curUser.getState();

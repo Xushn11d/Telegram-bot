@@ -2,11 +2,9 @@ package org.example.backend.service;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;
-import org.example.backend.model.MyUser;
 import org.example.backend.model.Remind;
 import org.example.backend.repository.FileWriterAndLoader;
 import org.example.backend.statics.PathConstants;
-import org.example.bot.maker.MessageMaker;
 
 import java.util.List;
 import java.util.Objects;
