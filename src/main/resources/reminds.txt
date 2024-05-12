@@ -1,8 +1,0 @@
-[
-  {
-    "userId": 1074027234,
-    "presnetDate": "2024-05-12T22:54:50.330671",
-    "sendDate": null,
-    "text": "pafsa"
-  }
-]

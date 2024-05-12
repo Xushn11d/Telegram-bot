@@ -1,6 +1,9 @@
 package org.example.bot.handlers;
 
-import com.pengrad.telegrambot.model.*;
+import com.pengrad.telegrambot.model.CallbackQuery;
+import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.example.bot.states.base.BaseState;
 import org.example.bot.states.child.DeleteRemindState;
@@ -99,6 +102,7 @@ public class CallBackQueryHandler extends BaseHandler{
                 bot.execute(sendMessage);
                 userService.save(curUser);
             }
+//			case TODO_PICTURE
             case CHOOSE_MENU-> chooseMenu();
         }
     }
@@ -127,7 +131,8 @@ public class CallBackQueryHandler extends BaseHandler{
                 curUser.setBaseState(BaseState.MAIN_STATE.name());
                 mainState();
             }
-
+			case "TODO_PICTURE"->{
+			}
             case "BACK"->{
                 curUser.setState(MainState.MAIN_MENU.name());
                 userService.save(curUser);
@@ -135,6 +140,7 @@ public class CallBackQueryHandler extends BaseHandler{
                 bot.execute(sendMessage);
                 deleteMessage(message.messageId());
             }
+	        default -> throw new IllegalStateException("Unexpected value: " + data);
         }
     }
 

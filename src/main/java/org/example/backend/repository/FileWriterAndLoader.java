@@ -6,18 +6,13 @@ import com.google.gson.reflect.TypeToken;
 import org.example.backend.LocalDateAdapter;
 import org.example.backend.LocalDateTimeJsonSerializer;
 
-import javax.crypto.spec.PSource;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.DateFormat;
-import java.text.Format;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class FileWriterAndLoader<M> {
@@ -36,22 +31,24 @@ public class FileWriterAndLoader<M> {
             e.printStackTrace();
         }
     }
-
-    public synchronized List<M> load(Class<M> mClass){
-        try {
-            String json = Files.readString(path);
-            Type type = TypeToken.getParameterized(List.class, mClass).getType();
-            ArrayList<M> arrayList = gson.fromJson(json, type);
-            return arrayList!=null?arrayList:new ArrayList<>();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
-    }
-
-
-
-    private Gson buildGson() {
+	
+	public synchronized List<M> load(Class<M> mClass) {
+		try {
+			String json = Files.readString(path);
+			Type type = TypeToken.getParameterized(List.class, mClass).getType();
+			ArrayList<M> arrayList = gson.fromJson(json, type);
+			return arrayList != null ? arrayList : new ArrayList<>();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
+	
+	
+	
+	
+	
+	private Gson buildGson() {
         return new GsonBuilder()
                 .setPrettyPrinting()
                 .setDateFormat("dd/MM/yyyy HH:mm:ss")

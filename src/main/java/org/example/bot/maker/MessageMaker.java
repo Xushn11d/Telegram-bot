@@ -22,7 +22,7 @@ public class MessageMaker {
     }
 
     public SendMessage enterPhoneNumber(MyUser curUser){
-        SendMessage sendMessage = new SendMessage(curUser.getId(), "☎\uFE0FEnter Phone Number");
+        SendMessage sendMessage = new SendMessage(curUser.getId(), "☎️Enter Phone Number");
         KeyboardButton[][] buttons ={
                 { new KeyboardButton("\uD83D\uDCDEPhone Number").requestContact(true) }
         };
@@ -35,7 +35,7 @@ public class MessageMaker {
         SendMessage sendMessage = new SendMessage(curUser.getId(), "\uD83D\uDCC6Enter Date (dd/mm/yyyy):");
         InlineKeyboardButton[][] buttons = {
                 {
-                        new InlineKeyboardButton("❌Back").callbackData("BACK")
+                        new InlineKeyboardButton("⬅️Back").callbackData("BACK")
                 }
         };
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);
@@ -68,9 +68,10 @@ public class MessageMaker {
                         new InlineKeyboardButton("✅Add remind").callbackData("SET_REMIND"),
                         new InlineKeyboardButton("\uD83D\uDDD1Delete remind").callbackData("DELETE_REMIND"),
                         new InlineKeyboardButton("🏷️Show reminds").callbackData("SHOW_REMIND"),
+		                new InlineKeyboardButton("✅ToDo Picture").callbackData("TODO_PICTURE"),
                 },
                 {
-                        new InlineKeyboardButton("❌Back").callbackData("BACK"),
+                        new InlineKeyboardButton("⬅️Back").callbackData("BACK"),
                 }
         };
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);
