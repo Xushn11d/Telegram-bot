@@ -1,6 +1,9 @@
 package org.example.bot.handlers;
 
-import com.pengrad.telegrambot.model.*;
+import com.pengrad.telegrambot.model.Contact;
+import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.User;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.example.backend.model.Remind;
 import org.example.bot.states.base.BaseState;
@@ -8,7 +11,6 @@ import org.example.bot.states.child.DeleteRemindState;
 import org.example.bot.states.child.MainState;
 import org.example.bot.states.child.SetRemindState;
 
-import java.text.DateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -106,7 +108,7 @@ public class MessageHandler extends BaseHandler{
 					LocalDateTime date = LocalDateTime.parse(text, dateFormatter);
 					LocalDateTime currentDate = LocalDateTime.now();
                     Remind remind = remindService.getWithoutSendDate(curUser.getId());
-                    System.out.println("Exeption");
+                    System.out.println(" Exeption");
                     remind.setSendDate(date);
                     remindService.save(remind);
 					if (date.isBefore(currentDate)) {

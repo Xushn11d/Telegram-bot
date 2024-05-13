@@ -1,0 +1,11 @@
+[
+  {
+    "username": "alimovny",
+    "lastname": null,
+    "firstname": "ny",
+    "phoneNumber": "+998909017194",
+    "state": "CHOOSE_MENU",
+    "baseState": "MAIN_STATE",
+    "id": 5129088287
+  }
+]
