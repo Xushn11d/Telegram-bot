@@ -21,8 +21,11 @@ public class SendActiveReminds {
     private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(12);
     private static RemindService remindService= new RemindService();
     private static TelegramBot bot= new TelegramBot(Bot.BOT_TOKEN);
-    private static MyUser user= new MyUser();
+    private static MyUser user;
 
+    public SendActiveReminds(MyUser user) {
+        this.user = user;
+    }
 
     public static void main(String[] args) {
         LocalDateTime time = LocalDateTime.now();

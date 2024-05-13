@@ -10,6 +10,7 @@ import org.example.backend.service.RemindService;
 import org.example.backend.service.UserService;
 import org.example.bean.Bean;
 import org.example.bot.maker.MessageMaker;
+import org.example.bot.sender.SendActiveReminds;
 import org.example.bot.states.base.BaseState;
 import org.example.bot.states.child.MainState;
 
@@ -20,6 +21,7 @@ public abstract class BaseHandler {
     protected RemindService remindService;
     protected UserService userService;
     protected MessageMaker messageMaker;
+    protected SendActiveReminds sendActiveReminds;
     protected int index;
 
     public BaseHandler() {
@@ -27,6 +29,7 @@ public abstract class BaseHandler {
         this.userService = Bean.userServiceByThreadLocal.get();
         this.messageMaker = Bean.messageMakerByThreadLocal.get();
         this.remindService=Bean.reminderServiceByTHreadLocal.get();
+        this.sendActiveReminds=new SendActiveReminds(curUser);
     }
 
     public abstract void handle(Update update);
