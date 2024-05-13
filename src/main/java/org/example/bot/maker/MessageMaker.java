@@ -66,8 +66,6 @@ public class MessageMaker {
                 {
                         new InlineKeyboardButton("✅Add remind").callbackData("SET_REMIND"),
                         new InlineKeyboardButton("\uD83D\uDDD1Delete remind").callbackData("DELETE_REMIND"),
-                        new InlineKeyboardButton("🏷️Show reminds").callbackData("SHOW_REMIND"),
-		                new InlineKeyboardButton("✅ToDo Picture").callbackData("TODO_PICTURE"),
                 },
                 {
 
