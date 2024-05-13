@@ -133,6 +133,7 @@ public class CallBackQueryHandler extends BaseHandler{
             }
 			case "TODO_PICTURE"->{
 			
+
 			}
             case "BACK"->{
                 curUser.setState(MainState.MAIN_MENU.name());
