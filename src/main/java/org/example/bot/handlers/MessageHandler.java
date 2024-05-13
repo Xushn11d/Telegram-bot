@@ -108,7 +108,6 @@ public class MessageHandler extends BaseHandler{
 					LocalDateTime date = LocalDateTime.parse(text, dateFormatter);
 					LocalDateTime currentDate = LocalDateTime.now();
                     Remind remind = remindService.getWithoutSendDate(curUser.getId());
-                    System.out.println(" Exeption");
                     remind.setSendDate(date);
                     remindService.save(remind);
 					if (date.isBefore(currentDate)) {
