@@ -6,6 +6,7 @@ import org.example.backend.model.Remind;
 import org.example.backend.repository.FileWriterAndLoader;
 import org.example.backend.statics.PathConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,6 +87,17 @@ public class RemindService implements PathConstants {
 
         return get(id) == null;
     }
+    public List<Remind> getAllReminds(Long id){
+        List<Remind> reminds = fileWriterOrLoader.load(Remind.class);
+        List<Remind> result= new ArrayList<>();
+        for (Remind remind : reminds) {
+            if (Objects.equals(remind.getUserId(),id)){
+                result.add(remind);
+            }
+        }
+        return result;
+    }
+
 
 
 }
