@@ -3,13 +3,9 @@ package org.example.bot.sender;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.example.Bot;
-import org.example.backend.LocalDateTimeJsonSerializer;
 import org.example.backend.model.MyUser;
 import org.example.backend.model.Remind;
 import org.example.backend.service.RemindService;
-import org.example.bot.handlers.BaseHandler;
-import org.example.bot.handlers.MessageHandler;
-import org.example.bot.maker.MessageMaker;
 
 import java.time.LocalDateTime;
 import java.util.List;

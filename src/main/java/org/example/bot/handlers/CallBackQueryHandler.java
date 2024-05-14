@@ -151,7 +151,6 @@ public class CallBackQueryHandler extends BaseHandler{
                 bot.execute(sendMessage);
                 deleteMessage(message.messageId());
             }
-	        default -> throw new IllegalStateException("Unexpected value: " + data);
         }
     }
 

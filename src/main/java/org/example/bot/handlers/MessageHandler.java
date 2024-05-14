@@ -59,7 +59,6 @@ public class MessageHandler extends BaseHandler{
 
     private void checkRemind() {
         String text = update.message().text();
-        System.out.println(text);
    int  index2 = remindService.getByIndex(curUser.getId(), Integer.parseInt(text));
         if (index2!=-1){
                 index =index2;
