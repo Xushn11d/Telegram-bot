@@ -52,12 +52,10 @@ public class CallBackQueryHandler extends BaseHandler{
             case DELETE_REMIND -> {
                 if (deleteBack(update.callbackQuery().data(),state,update.callbackQuery().message())) {
                     deleteMessage(update.callbackQuery().message().messageId());
-
                 }
                 String data = update.callbackQuery().data();
                 if(data.equals("YES")){
                     remindService.deleteByindex(index);
-                    System.out.println("deleted");
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "Successfully deleted 🎉🎉🎉");
                 bot.execute(sendMessage);
                 }

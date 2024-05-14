@@ -70,7 +70,9 @@ public class MessageHandler extends BaseHandler{
                 SendMessage sendMessage = new SendMessage(curUser.getId(), "This remind does not exist❌");
                 bot.execute(sendMessage);
                 remindService.sendAllReminds(curUser.getId(),bot);
-            }
+            SendMessage sendMessage1 = messageMaker.deleteRemind(curUser);
+            bot.execute(sendMessage1);
+        }
     }
 	private void setRemindState() {
 		String stateStr = curUser.getState();

@@ -32,7 +32,7 @@ public class MessageMaker {
     }
 
     public SendMessage enterDateForReminder(MyUser curUser){
-        SendMessage sendMessage = new SendMessage(curUser.getId(), "\uD83D\uDCC6Enter Date (dd/mm/yyyy):");
+        SendMessage sendMessage = new SendMessage(curUser.getId(), "\uD83D\uDCC6Enter Date (dd/mm/yyyy,HH:mm:ss):");
         InlineKeyboardButton[][] buttons = {
                 {
                         new InlineKeyboardButton("⬅️Back").callbackData("BACK")
