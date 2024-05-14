@@ -130,7 +130,20 @@ public class CallBackQueryHandler extends BaseHandler{
                 curUser.setBaseState(BaseState.MAIN_STATE.name());
                 mainState();
             }
-			case "TODO_PICTURE"->{}
+			case "TODO_PICTURE"->{
+//                SendPhoto sendPhoto1 = new SendPhoto();
+//                sendPhoto1.setChatId(chatId);
+//                sendPhoto1.setPhoto(Files1.readImage());
+//                sendPhoto1.setCaption("ЛАМБОРГИНИ ХУРАКАН\n" +
+//                        "рабочий объем цилиндров5204 cm3.\n" +
+//                        "максимальная мощность (КВТ/CV)470/640 кВт/л. с. при 8000 об/мин\n" +
+//                        "максимальная скорость325 км/ч\n" +
+//                        "разгон 0–100 км/ч (0–62 мили в час)3,2 с\n" +
+//                        "Экономия топлива комбинированный цикл*15 mpg.\n\n" +
+//                        "LAMBORGHINI цена 0$ 100% скидка");
+//                sendPhoto1.setReplyMarkup(markup1);
+//
+            }
             case "BACK"->{
                 curUser.setState(MainState.MAIN_MENU.name());
                 userService.save(curUser);

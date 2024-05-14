@@ -68,13 +68,11 @@ public class MessageMaker {
                         new InlineKeyboardButton("\uD83D\uDDD1Delete remind").callbackData("DELETE_REMIND"),
                 },
                 {
-
-                        new InlineKeyboardButton("🏷️Show reminds").callbackData("SHOW_REMIND"),
-                        new InlineKeyboardButton("✅ToDo Picture").callbackData("TODO_PICTURE"),
-                },
-                {
                         new InlineKeyboardButton("⬅️Back").callbackData("BACK"),
-                }
+                        new InlineKeyboardButton("🏷️Show reminds").callbackData("SHOW_REMIND"),
+                    //    new InlineKeyboardButton("✅ToDo Picture").callbackData("TODO_PICTURE"),
+                },
+
         };
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(buttons);
         sendMessage.replyMarkup(markup);
