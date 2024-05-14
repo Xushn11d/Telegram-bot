@@ -16,5 +16,4 @@ public class MyUser {
     private String state;
     private String baseState;
     private long id;
-
 }
