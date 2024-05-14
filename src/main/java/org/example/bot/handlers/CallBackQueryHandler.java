@@ -61,6 +61,7 @@ public class CallBackQueryHandler extends BaseHandler{
                 }
                 curUser.setState(MainState.MAIN_MENU.name());
                 curUser.setBaseState(BaseState.MAIN_STATE.name());
+                mainState();
                 userService.save(curUser);
             }
         }

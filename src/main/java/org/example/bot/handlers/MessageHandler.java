@@ -104,7 +104,6 @@ public class MessageHandler extends BaseHandler{
 					bot.execute(sendMessage);
 					return;
 				}
-                System.out.println("Exeption");
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy,HH:mm:ss");
 				try {
 					LocalDateTime date = LocalDateTime.parse(text, dateFormatter);
