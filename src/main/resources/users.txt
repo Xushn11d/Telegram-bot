@@ -1,0 +1,9 @@
+[
+  {
+    "firstname": "ㅤㅤㅤ",
+    "phoneNumber": "998976335259",
+    "state": "CHOOSE_MENU",
+    "baseState": "MAIN_STATE",
+    "id": 1074027234
+  }
+]

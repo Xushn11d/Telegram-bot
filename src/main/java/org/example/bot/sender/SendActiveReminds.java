@@ -24,22 +24,25 @@ public class SendActiveReminds {
     }
 
     public static void main(String[] args) {
-        LocalDateTime time = LocalDateTime.now();
-        Runnable task= new Runnable() {
-            @Override
-            public void run() {
-                List<Remind> reminds = remindService.getAllReminds(user.getId());
-                for (Remind remind : reminds) {
-                    if (Objects.equals(remind.getSendDate(), time)){
-                        SendMessage sendMessage = new SendMessage(user, remind.getText());
-                        bot.execute(sendMessage);
-                    }
-                }
-            }
-        };
-        executor.schedule(task,1, TimeUnit.MINUTES);
-        executor.execute(task);
+
     }
+     public static void test(){
+         LocalDateTime time = LocalDateTime.now();
+         Runnable task= new Runnable() {
+             @Override
+             public void run() {
+                 List<Remind> reminds = remindService.getAllReminds(user.getId());
+                 for (Remind remind : reminds) {
+                     if (remind.getSendDate().isBefore(time)){
+                         SendMessage sendMessage = new SendMessage(user, remind.getText());
+                         bot.execute(sendMessage);
+                     }
+                 }
+             }
+         };
+         executor.schedule(task,1, TimeUnit.SECONDS);
+         executor.execute(task);
+     }
 
 
 

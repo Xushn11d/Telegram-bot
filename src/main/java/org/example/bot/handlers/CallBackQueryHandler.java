@@ -64,6 +64,7 @@ public class CallBackQueryHandler extends BaseHandler{
                 mainState();
                 userService.save(curUser);
             }
+
         }
     }
 
@@ -125,7 +126,11 @@ public class CallBackQueryHandler extends BaseHandler{
                 deleteMessage(message.messageId());
             }
             case "SHOW_REMIND"->{
-                remindService.sendAllReminds(curUser.getId(), bot);
+                boolean b = remindService.sendAllReminds(curUser.getId(), bot);
+                if(b){
+                    SendMessage sendMessage = new SendMessage(curUser.getId(), "🗓️You do not have any reminds");
+                    bot.execute(sendMessage);
+                }
                 curUser.setState(MainState.MAIN_MENU.name());
                 curUser.setBaseState(BaseState.MAIN_STATE.name());
                 mainState();
@@ -199,6 +204,7 @@ public class CallBackQueryHandler extends BaseHandler{
         }
         return false;
     }
+
 
 
 
